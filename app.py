@@ -8,12 +8,8 @@ from dotenv import load_dotenv
 import json
 
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
-load_dotenv()
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = os.getenv('FIREBASECONFIG')
-
-if not FIREBASECONFIG:
-   load_dotenv(dotenv_path=os.path.abspath('/etc/secrets/'))
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
