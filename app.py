@@ -7,7 +7,7 @@ import products_functions as pf
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
 PRICE_ERROR = "PRICE_ERROR"
 
-cred = credentials.Certificate('firebase-config.json')
+cred = credentials.Certificate(FIREBASECONFIG)
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
 
 app = Flask(__name__)
