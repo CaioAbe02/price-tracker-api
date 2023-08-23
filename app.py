@@ -5,13 +5,14 @@ from firebase_admin import credentials, db
 import products_functions as pf
 import os
 from dotenv import load_dotenv
+import json
 
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
 load_dotenv()
 PRICE_ERROR = "PRICE_ERROR"
-FIREBASECONFIG = os.environ['FIREBASECONFIG']
+FIREBASECONFIG = os.getenv('FIREBASECONFIGS')
 
-cred = credentials.Certificate(FIREBASECONFIG)
+cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
 
 app = Flask(__name__)
