@@ -3,11 +3,12 @@ from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, db
 import products_functions as pf
+import os
 
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
 PRICE_ERROR = "PRICE_ERROR"
 
-cred = credentials.Certificate(FIREBASECONFIG)
+cred = credentials.Certificate(os.environ.get("FIREBASECONFIG"))
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
 
 app = Flask(__name__)
