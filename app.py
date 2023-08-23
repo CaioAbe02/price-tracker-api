@@ -12,6 +12,9 @@ load_dotenv()
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = os.getenv('FIREBASECONFIGS')
 
+if not FIREBASECONFIG:
+   load_dotenv(dotenv_path=os.path.abspath('etc/secrets/'))
+
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
 
