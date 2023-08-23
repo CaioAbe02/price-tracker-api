@@ -10,7 +10,7 @@ import json
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
 load_dotenv()
 PRICE_ERROR = "PRICE_ERROR"
-FIREBASECONFIG = os.getenv('FIREBASECONFIGS')
+FIREBASECONFIG = os.getenv('FIREBASECONFIG')
 
 if not FIREBASECONFIG:
    load_dotenv(dotenv_path=os.path.abspath('/etc/secrets/'))
