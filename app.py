@@ -57,7 +57,7 @@ def edit_product(id):
             response = jsonify({"message": "Product price updated successfully", "product": data})
 
             # Set the CORS headers
-            response.headers['Access-Control-Allow-Origin'] = 'https://price-tracker-api.onrender.com'
+            response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
             response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
             response.status_code = 200
@@ -92,7 +92,7 @@ def update_product_price(id):
             ref.update(data)
 
             # Set the CORS headers
-            response.headers['Access-Control-Allow-Origin'] = 'https://price-tracker-api.onrender.com'
+            response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
             response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
             response.status_code = 200
@@ -106,7 +106,7 @@ def update_product_price(id):
 @app.after_request
 def after_request(response):
    if request.method == 'OPTIONS':
-      response.headers['Access-Control-Allow-Origin'] = 'https://price-tracker-api.onrender.com'
+      response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
       response.headers['Access-Control-Allow-Methods'] = 'PUT, DELETE'
       response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
       response.status_code = 200
