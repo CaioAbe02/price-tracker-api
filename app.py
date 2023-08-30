@@ -6,10 +6,11 @@ import products_functions as pf
 import os
 from dotenv import load_dotenv
 import json
+from decouple import config
 
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
 PRICE_ERROR = "PRICE_ERROR"
-FIREBASECONFIG = os.getenv('FIREBASECONFIG')
+FIREBASECONFIG = config('FIREBASECONFIG')
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
@@ -57,7 +58,10 @@ def edit_product(id):
             response = jsonify({"message": "Product price updated successfully", "product": data})
 
             # Set the CORS headers
-            response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+            if os.environ.get('MODE') == 'PRODUCTION':
+               response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+            else:
+               response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
             response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
             response.status_code = 200
@@ -92,7 +96,10 @@ def update_product_price(id):
             ref.update(data)
 
             # Set the CORS headers
-            response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+            if os.environ.get('MODE') == 'PRODUCTION':
+               response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+            else:
+               response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
             response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
             response.status_code = 200
@@ -106,7 +113,10 @@ def update_product_price(id):
 @app.after_request
 def after_request(response):
    if request.method == 'OPTIONS':
-      response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+      if os.environ.get('MODE') == 'PRODUCTION':
+         response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+      else:
+         response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
       response.headers['Access-Control-Allow-Methods'] = 'PUT, DELETE'
       response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
       response.status_code = 200
