@@ -11,6 +11,7 @@ from decouple import config
 firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
+FLASK_ENV = config('FLASK_DEBUG')
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
@@ -20,7 +21,6 @@ CORS(app, resources={r'/products*': {'origins': '*'}})
 
 @app.route("/products", methods=['GET'])
 def get_products():
-   print(app.config['ENV'])
    return jsonify(db.reference('products').get())
 
 @app.route('/products/<int:id>', methods=['GET'])
@@ -59,7 +59,7 @@ def edit_product(id):
             response = jsonify({"message": "Product price updated successfully", "product": data})
 
             # Set the CORS headers
-            if os.environ.get('MODE') == 'PRODUCTION':
+            if FLASK_ENV == 'production':
                response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
@@ -97,7 +97,7 @@ def update_product_price(id):
             ref.update(data)
 
             # Set the CORS headers
-            if os.environ.get('MODE') == 'PRODUCTION':
+            if FLASK_ENV == 'production':
                response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
@@ -114,7 +114,7 @@ def update_product_price(id):
 @app.after_request
 def after_request(response):
    if request.method == 'OPTIONS':
-      if os.environ.get('MODE') == 'PRODUCTION':
+      if FLASK_ENV == 'production':
          response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
       else:
          response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
