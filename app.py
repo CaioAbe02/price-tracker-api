@@ -20,7 +20,7 @@ CORS(app, resources={r'/products*': {'origins': '*'}})
 
 @app.route("/products", methods=['GET'])
 def get_products():
-   print(os.environ.get('MODE'))
+   print(app.config['ENV'])
    return jsonify(db.reference('products').get())
 
 @app.route('/products/<int:id>', methods=['GET'])
