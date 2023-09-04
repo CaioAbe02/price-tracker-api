@@ -27,8 +27,6 @@ def get_product_price(url):
       price_element = div.find('span', class_='andes-money-amount__fraction')
       price_cents = div.find('span', class_='andes-money-amount__cents')
 
-   time.sleep(3)
-
    if price_element is not None:
       price = price_element.text.replace("R$", "")
 
