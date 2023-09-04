@@ -14,12 +14,14 @@ def get_product_price(url):
    soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
 
    if store == "amazon":
+      page = requests.get(url, headers=headers)
+      soup1 = BeautifulSoup(page.content, "html.parser")
+      soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
       price_element = soup2.find('span', class_='a-offscreen')
+
       for i in range(100):
          if price_element is not None:
             break
-         else:
-            price_element = soup2.find('span', class_='a-offscreen')
    elif store == "kabum":
       price_element = soup2.find('h4', class_='finalPrice')
    elif store == "mercadolivre":
