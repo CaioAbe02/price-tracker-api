@@ -74,7 +74,7 @@ def edit_product(id):
 @app.route('/products/update_price/<int:id>', methods=['PUT', 'OPTIONS'])
 def update_product_price(id):
    data = request.get_json()
-   print(data)
+   print(data['name'])
    if request.method == 'PUT':
       if data:
          try:
@@ -86,13 +86,15 @@ def update_product_price(id):
             if new_price == PRICE_ERROR:
                print(PRICE_ERROR)
                response = jsonify({"message": "Product price not found", "product": data})
+               print("Price not found")
             elif new_price != data['new_prices'][-1]:
                data['new_prices'].append(float(new_price))
                data['new_prices_dates'].append(pf.get_current_date())
                response = jsonify({"message": "Product price updated successfully", "product": data})
+               print("New price!")
             else:
-               response = jsonify({"message": "Product updated successfully", "product": data})
-
+               response = jsonify({"message": "Product price did not change", "product": data})
+               print("Same price!")
 
             ref.update(data)
 
