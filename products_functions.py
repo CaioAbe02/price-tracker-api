@@ -25,8 +25,12 @@ def get_product_price(url):
       price_element = soup2.find('h4', class_='finalPrice')
    elif store == "mercadolivre":
       div = soup2.find('div', class_='ui-pdp-price__second-line')
-      price_element = div.find('span', class_='andes-money-amount__fraction')
-      price_cents = div.find('span', class_='andes-money-amount__cents')
+
+      if not div:
+         price_element = None
+      else:
+         price_element = div.find('span', class_='andes-money-amount__fraction')
+         price_cents = div.find('span', class_='andes-money-amount__cents')
 
    if price_element is not None:
       price = price_element.text.replace("R$", "")
