@@ -85,9 +85,11 @@ def update_product_price(id):
 
             if new_price == PRICE_ERROR:
                print(PRICE_ERROR)
+               data['available'] = False
                response = jsonify({"message": "Product price not found", "product": data})
                print("Price not found")
             elif new_price != data['new_prices'][-1]:
+               data['available'] = True
                data['new_prices'].append(float(new_price))
                data['new_prices_dates'].append(pf.get_current_date())
                response = jsonify({"message": "Product price updated successfully", "product": data})
