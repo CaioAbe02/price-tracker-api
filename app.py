@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, db
-import products_functions as pf
+from products_functions import *
 import json
 from decouple import config
 
@@ -29,9 +29,9 @@ def get_product(id):
 def add_product():
    data = request.get_json()
    if data and 'id' in data:
-      data['original_price'] = pf.get_product_price(data['url'])
+      data['original_price'] = get_product_price(data['url'])
       data['new_prices'] = [data['original_price']]
-      data['new_prices_dates'] = [pf.get_current_date()]
+      data['new_prices_dates'] = [get_current_date()]
 
       if data['original_price'] == PRICE_ERROR:
          return jsonify({"message": PRICE_ERROR}), 500
@@ -79,7 +79,7 @@ def update_product_price(id):
             ref = db.reference(f'products/{id}')
             product_data = ref.get()
 
-            new_price = pf.get_product_price(product_data['url'])
+            new_price = get_product_price(product_data['url'])
 
             if new_price == PRICE_ERROR:
                print(PRICE_ERROR)
@@ -89,7 +89,7 @@ def update_product_price(id):
             elif new_price != data['new_prices'][-1]:
                data['available'] = True
                data['new_prices'].append(float(new_price))
-               data['new_prices_dates'].append(pf.get_current_date())
+               data['new_prices_dates'].append(get_current_date())
                response = jsonify({"message": "Product price updated successfully", "product": data})
                print("New price!")
             else:
