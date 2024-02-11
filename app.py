@@ -95,6 +95,7 @@ def update_product_price(id):
                response = jsonify({"message": "Product price updated successfully", "product": data})
                print("New price!")
             else:
+               data['available'] = True
                response = jsonify({"message": "Product price did not change", "product": data})
                print("Same price!")
 
