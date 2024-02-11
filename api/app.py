@@ -116,10 +116,7 @@ def update_product_price(id):
 
 @app.after_request
 def after_request(response):
-   if FLASK_ENV == 'production':
-      response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
-   else:
-      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+   response.headers.add("Access-Control-Allow-Origin", "*")
    response.headers['Access-Control-Allow-Methods'] = 'PUT, DELETE'
    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
    response.status_code = 200
