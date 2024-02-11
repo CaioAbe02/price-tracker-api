@@ -3,8 +3,6 @@ from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, db
 import products_functions as pf
-import os
-from dotenv import load_dotenv
 import json
 from decouple import config
 
