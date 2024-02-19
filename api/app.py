@@ -12,13 +12,13 @@ project_dir = os.path.dirname(app_dir)
 sys.path.append(project_dir)
 from functions.products_functions import *
 
-firebase_url = config('FIREBASE_URL')
+FIREBASE_URL = config('FIREBASE_URL')
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
 FLASK_ENV = config('FLASK_DEBUG')
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
-firebase_admin.initialize_app(cred, {'databaseURL': firebase_url})
+firebase_admin.initialize_app(cred, {'databaseURL': FIREBASE_URL})
 
 app = Flask(__name__)
 CORS(app, resources={r'/products*': {'origins': '*'}})
