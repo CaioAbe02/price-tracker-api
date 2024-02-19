@@ -2,11 +2,17 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, db
-from functions.products_functions import *
 import json
 from decouple import config
+import sys
+import os
 
-firebase_url = "https://preco-bom-ddcc1-default-rtdb.firebaseio.com/"
+app_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.dirname(app_dir)
+sys.path.append(project_dir)
+from functions.products_functions import *
+
+firebase_url = config('FIREBASE_URL')
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
 FLASK_ENV = config('FLASK_DEBUG')
