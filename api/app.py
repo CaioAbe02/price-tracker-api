@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, db
-from products_functions import *
+from functions.products_functions import *
 import json
 from decouple import config
 
@@ -39,7 +39,7 @@ def add_product():
       try:
          ref = db.reference(f'products/{data["id"]}')
          ref.set(data)
-         return jsonify({"message": "Product added successfully"}), 201
+         return jsonify({"message": "Product added successfully", "product": data}), 201
       except Exception as e:
          return jsonify({"message": f"Error adding product: {str(e)}"}), 500
    else:
