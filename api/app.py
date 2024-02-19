@@ -35,6 +35,7 @@ def get_product(id):
 def add_product():
    data = request.get_json()
    if data and 'id' in data:
+      data['available'] = True
       data['original_price'] = get_product_price(data['url'])
       data['new_prices'] = [data['original_price']]
       data['new_prices_dates'] = [get_current_date()]
