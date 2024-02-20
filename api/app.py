@@ -23,6 +23,10 @@ firebase_admin.initialize_app(cred, {'databaseURL': FIREBASE_URL})
 app = Flask(__name__)
 CORS(app, resources={r'/products*': {'origins': '*'}})
 
+@app.route("/data", methods=['GET'])
+def get_data():
+   return jsonify(db.reference().get())
+
 @app.route("/products", methods=['GET'])
 def get_products():
    return jsonify(db.reference('products').get())
@@ -30,6 +34,10 @@ def get_products():
 @app.route('/products/<int:id>', methods=['GET'])
 def get_product(id):
    return jsonify(db.reference(f'products/{id}').get())
+
+@app.route('/tags', methods=['GET'])
+def get_tags():
+   return jsonify(db.reference('tags').get())
 
 @app.route('/products', methods=['POST'])
 def add_product():
