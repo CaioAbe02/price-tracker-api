@@ -19,7 +19,7 @@ def get_product_price(url):
          soup1 = BeautifulSoup(page.content, "html.parser")
          soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
          div_element = soup2.find('div', id='corePrice_feature_div')
-         if price_element is not None:
+         if div_element is not None:
             price_element = div_element.find('span', class_='a-offscreen')
             break
    elif store == "kabum":
