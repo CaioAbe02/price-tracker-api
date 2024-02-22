@@ -14,7 +14,7 @@ def get_product_price(url):
    soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
 
    if store == "amazon":
-      for i in range(20):
+      for i in range(10):
          page = requests.get(url, headers=headers)
          soup1 = BeautifulSoup(page.content, "html.parser")
          soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
