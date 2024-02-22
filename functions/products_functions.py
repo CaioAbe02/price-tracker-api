@@ -14,22 +14,15 @@ def get_product_price(url):
    soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
 
    if store == "amazon":
-      for i in range(10):
-         page = requests.get(url, headers=headers)
-         soup1 = BeautifulSoup(page.content, "html.parser")
-         soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
-         div_element = soup2.find('div', id='corePrice_feature_div')
-         if div_element is not None:
-            price_element = div_element.find('span', class_='a-offscreen')
-            break
+      div_element = soup2.find('div', id='corePrice_feature_div')
+      if div_element is not None:
+         price_element = div_element.find('span', class_='a-offscreen')
    elif store == "kabum":
       price_element = soup2.find('h4', class_='finalPrice')
    elif store == "mercadolivre":
       div = soup2.find('div', class_='ui-pdp-price__second-line')
 
-      if not div:
-         price_element = None
-      else:
+      if div is not None:
          price_element = div.find('span', class_='andes-money-amount__fraction')
          price_cents = div.find('span', class_='andes-money-amount__cents')
 
