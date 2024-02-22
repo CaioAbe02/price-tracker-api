@@ -6,6 +6,7 @@ PRICE_ERROR = "PRICE_ERROR"
 
 def get_product_price(url):
    price = None
+   price_element = None
    store = get_store(url)
    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36", "Accept-Encoding":"gzip, deflate", "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "DNT":"1","Connection":"close", "Upgrade-Insecure-Requests":"1"}
    page = requests.get(url, headers=headers)
@@ -13,12 +14,13 @@ def get_product_price(url):
    soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
 
    if store == "amazon":
-      for i in range(100):
+      for i in range(20):
          page = requests.get(url, headers=headers)
          soup1 = BeautifulSoup(page.content, "html.parser")
          soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
-         price_element = soup2.find('span', class_='a-offscreen')
+         div_element = soup2.find('div', id='corePrice_feature_div')
          if price_element is not None:
+            price_element = div_element.find('span', class_='a-offscreen')
             break
    elif store == "kabum":
       price_element = soup2.find('h4', class_='finalPrice')
