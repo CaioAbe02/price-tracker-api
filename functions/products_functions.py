@@ -20,7 +20,7 @@ def get_product_price(url):
          soup1 = BeautifulSoup(page.content, "html.parser")
          soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
 
-         if (soup2.find('div', id='fodcx_feature_div') is not None):
+         if (soup2.find('div', id='fod-cx-box') is not None):
             return PRODUCT_UNAVAILABLE
 
          price_element = soup2.find('span', class_='a-offscreen')
