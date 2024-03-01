@@ -129,6 +129,30 @@ def update_product_price(id):
       else:
          return jsonify({"message": "Invalid data"}), 400
 
+@app.route('/tags/edit/<int:id>', methods=['PUT', 'OPTIONS'])
+def edit_tag(id):
+   data = request.get_json()
+
+   if request.method == 'PUT':
+      if data:
+         try:
+            ref = db.reference(f'tags/{id}')
+            ref.update(data)
+            response = jsonify({"message": "Tag edited successfully", "tag": data})
+
+            # Set the CORS headers
+            if FLASK_ENV == 'production':
+               response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+            else:
+               response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+            response.headers['Access-Control-Allow-Methods'] = 'PUT'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+            response.status_code = 200
+
+            return response
+         except Exception as e:
+            return jsonify({"message": f"Error editing tag: {str(e)}"}), 500
+
 @app.after_request
 def after_request(response):
    if request.method == 'OPTIONS':
