@@ -96,8 +96,11 @@ def update_product_price(id):
 
             new_price = get_product_price(product_data['url'])
 
-            if new_price == PRICE_ERROR:
-               print(PRICE_ERROR)
+            if new_price == PRODUCT_UNAVAILABLE:
+               data['available'] = False
+               response = jsonify({"message": "Product unavailable", "product": data})
+               print("Product unavailable")
+            elif new_price == PRICE_ERROR:
                data['available'] = False
                response = jsonify({"message": "Product price not found", "product": data})
                print("Price not found")

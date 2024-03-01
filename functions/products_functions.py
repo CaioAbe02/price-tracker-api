@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 PRICE_ERROR = "PRICE_ERROR"
+PRODUCT_UNAVAILABLE = "PRODUCT_UNAVAILABLE"
 
 def get_product_price(url):
    price = None
@@ -18,9 +19,15 @@ def get_product_price(url):
          page = requests.get(url, headers=headers)
          soup1 = BeautifulSoup(page.content, "html.parser")
          soup2 = BeautifulSoup(soup1.prettify(), "html.parser")
+
+         if (soup2.find('div', id='fodcx_feature_div') is not None):
+            return PRODUCT_UNAVAILABLE
+
          price_element = soup2.find('span', class_='a-offscreen')
          if price_element is not None:
             break
+      if price_element is None:
+         return PRICE_ERROR
    elif store == "kabum":
       price_element = soup2.find('h4', class_='finalPrice')
    elif store == "mercadolivre":
@@ -38,7 +45,7 @@ def get_product_price(url):
          price = f"{price.strip()},{price_cents}"
 
    else:
-      return PRICE_ERROR
+      return PRODUCT_UNAVAILABLE
 
    if "." in price:
       price = price.replace(".", "")
