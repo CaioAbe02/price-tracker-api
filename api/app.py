@@ -16,6 +16,7 @@ FIREBASE_URL = config('FIREBASE_URL')
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
 FLASK_ENV = config('FLASK_DEBUG')
+PROD_URL = 'https://pricetrackeradmin.vercel.app'
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': FIREBASE_URL})
@@ -73,7 +74,7 @@ def edit_product(id):
 
             # Set the CORS headers
             if FLASK_ENV == 'production':
-               response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+               response.headers['Access-Control-Allow-Origin'] = PROD_URL
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
@@ -119,7 +120,7 @@ def update_product_price(id):
 
             # Set the CORS headers
             if FLASK_ENV == 'production':
-               response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+               response.headers['Access-Control-Allow-Origin'] = PROD_URL
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
@@ -158,7 +159,7 @@ def edit_tag(id):
 
             # Set the CORS headers
             if FLASK_ENV == 'production':
-               response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+               response.headers['Access-Control-Allow-Origin'] = PROD_URL
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
@@ -173,7 +174,7 @@ def edit_tag(id):
 def after_request(response):
    if request.method == 'OPTIONS' or request.method == 'POST':
       if FLASK_ENV == 'production':
-         response.headers['Access-Control-Allow-Origin'] = 'https://capricetracker.vercel.app'
+         response.headers['Access-Control-Allow-Origin'] = PROD_URL
       else:
          response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
    elif request.method == 'GET':
