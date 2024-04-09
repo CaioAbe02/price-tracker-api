@@ -16,7 +16,7 @@ FIREBASE_URL = config('FIREBASE_URL')
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
 FLASK_ENV = config('FLASK_DEBUG')
-PROD_URL = 'https://pricetrackeradmin.vercel.app'
+PROD_URL = config('PROD_URL')
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': FIREBASE_URL})
