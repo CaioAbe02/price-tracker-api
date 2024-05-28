@@ -43,7 +43,8 @@ def get_tags():
 @app.route('/products', methods=['POST'])
 def add_product():
    data = request.get_json()
-   if data and 'id' in data:
+   if data:
+      data['id'] = get_last_product_id(db.reference('products')) + 1
       data['available'] = True
       data['original_price'] = get_product_price(data['url'])
       data['new_prices'] = [data['original_price']]
