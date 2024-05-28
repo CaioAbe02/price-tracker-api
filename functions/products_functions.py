@@ -65,10 +65,4 @@ def get_current_date():
    return date.today().strftime("%d/%m/%Y")
 
 def get_last_product_id(products):
-   ids: dict = products.order_by_key().get()
-   print(ids)
-
-   if ids:
-      return max(int(key) for key in ids.keys()) + 1
-
-   return None
+   return max(products, key=lambda x: x['id'])['id']

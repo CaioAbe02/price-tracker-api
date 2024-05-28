@@ -44,7 +44,7 @@ def get_tags():
 def add_product():
    data = request.get_json()
    if data:
-      data['id'] = get_last_product_id(db.reference('products')) + 1
+      data['id'] = get_last_product_id(db.reference('products').get()) + 1
       data['available'] = True
       data['original_price'] = get_product_price(data['url'])
       data['new_prices'] = [data['original_price']]
