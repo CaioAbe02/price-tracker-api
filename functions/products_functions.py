@@ -63,3 +63,6 @@ def get_store(url):
 
 def get_current_date():
    return date.today().strftime("%d/%m/%Y")
+
+def get_last_product_id(products):
+   return max(products, key=lambda x: x['id'])['id']

@@ -16,7 +16,7 @@ FIREBASE_URL = config('FIREBASE_URL')
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
 FLASK_ENV = config('FLASK_DEBUG')
-PROD_URL = 'https://pricetrackeradmin.vercel.app'
+PROD_URL = config('PROD_URL')
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': FIREBASE_URL})
@@ -43,7 +43,8 @@ def get_tags():
 @app.route('/products', methods=['POST'])
 def add_product():
    data = request.get_json()
-   if data and 'id' in data:
+   if data:
+      data['id'] = get_last_product_id(db.reference('products').get()) + 1
       data['available'] = True
       data['original_price'] = get_product_price(data['url'])
       data['new_prices'] = [data['original_price']]
@@ -185,4 +186,4 @@ def after_request(response):
    return response
 
 if __name__ == "__main__":
-    app.run(debug=True)
+   app.run(debug=True)
