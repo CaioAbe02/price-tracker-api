@@ -16,7 +16,7 @@ FIREBASE_URL = config('FIREBASE_URL')
 PRICE_ERROR = "PRICE_ERROR"
 FIREBASECONFIG = config('FIREBASECONFIG')
 FLASK_ENV = config('FLASK_DEBUG')
-PROD_URL = config('PROD_URL')
+PROD_URL = config('PROD_URL').split(',')
 
 cred = credentials.Certificate(json.loads(FIREBASECONFIG))
 firebase_admin.initialize_app(cred, {'databaseURL': FIREBASE_URL})
@@ -74,8 +74,10 @@ def edit_product(id):
             response = jsonify({"message": "Product price updated successfully", "product": data})
 
             # Set the CORS headers
+            origin = request.headers.get('Origin')
             if FLASK_ENV == 'production':
-               response.headers['Access-Control-Allow-Origin'] = PROD_URL
+               if origin in PROD_URL:
+                  response.headers['Access-Control-Allow-Origin'] = origin
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
@@ -120,8 +122,10 @@ def update_product_price(id):
             ref.update(data)
 
             # Set the CORS headers
+            origin = request.headers.get('Origin')
             if FLASK_ENV == 'production':
-               response.headers['Access-Control-Allow-Origin'] = PROD_URL
+               if origin in PROD_URL:
+                  response.headers['Access-Control-Allow-Origin'] = origin
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
@@ -159,8 +163,10 @@ def edit_tag(id):
             response = jsonify({"message": "Tag edited successfully", "tag": data})
 
             # Set the CORS headers
+            origin = request.headers.get('Origin')
             if FLASK_ENV == 'production':
-               response.headers['Access-Control-Allow-Origin'] = PROD_URL
+               if origin in PROD_URL:
+                  response.headers['Access-Control-Allow-Origin'] = origin
             else:
                response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
             response.headers['Access-Control-Allow-Methods'] = 'PUT'
