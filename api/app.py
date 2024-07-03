@@ -180,8 +180,10 @@ def edit_tag(id):
 @app.after_request
 def after_request(response):
    if request.method == 'OPTIONS' or request.method == 'POST':
+      origin = request.headers.get('Origin')
       if FLASK_ENV == 'production':
-         response.headers['Access-Control-Allow-Origin'] = PROD_URL
+         if origin in PROD_URL:
+            response.headers['Access-Control-Allow-Origin'] = origin
       else:
          response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
    elif request.method == 'GET':
