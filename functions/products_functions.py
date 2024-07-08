@@ -27,7 +27,7 @@ def get_product_price(url):
             return PRODUCT_UNAVAILABLE
 
          price_element = soup2.find('span', class_='a-offscreen')
-         if price_element is not None and "R$" in price_element:
+         if (price_element is not None) and ("R$" in price_element.text):
             break
       if price_element is None:
          return PRICE_ERROR
