@@ -23,8 +23,11 @@ def get_product_price(url):
          if (soup2.find('div', id='outOfStock') is not None):
             return PRODUCT_UNAVAILABLE
 
+         if (soup2.find('div', id='fod-cx-box') is not None):
+            return PRODUCT_UNAVAILABLE
+
          price_element = soup2.find('span', class_='a-offscreen')
-         if price_element is not None:
+         if price_element is not None and "R$" in price_element:
             break
       if price_element is None:
          return PRICE_ERROR
